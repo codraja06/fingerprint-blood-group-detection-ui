@@ -1,63 +1,204 @@
-# BloodID
+# 🩸 BloodID
+### AI-Assisted Blood Group Prediction from Fingerprint Images
 
-BloodID is a mobile-first prototype for AI-assisted blood group prediction from fingerprint images. The project combines a React Native/Expo mobile app with a FastAPI backend, offering user authentication, fingerprint analysis, prediction history, and personalized settings.
+**A Mobile-First Healthcare Research Prototype**
 
-## Project overview
+BloodID is a full-stack mobile application prototype designed to explore AI-assisted blood group prediction using fingerprint images. Built with **React Native, Expo, TypeScript, FastAPI, and SQLite**, it provides a modern interface for fingerprint analysis, user authentication, prediction history, and personalized account management.
 
-This application is designed as an experimental healthcare demo. It allows users to:
+The project demonstrates the integration of mobile application development, backend APIs, image-processing workflows, and machine learning concepts within an experimental healthcare environment.
 
-- create an account or sign in
-- upload or capture a fingerprint image
-- request a blood group prediction through the backend API
-- review prediction confidence and probability breakdown
-- revisit previous results from a history screen
-- configure account preferences and learning content
+> **Important:** BloodID is an educational and research-oriented prototype. The current prediction engine uses simulated results rather than a trained and clinically validated machine learning model. Fingerprint-based blood group prediction is not an established medical diagnostic method. Results must not be used for medical decisions, blood transfusions, or clinical diagnosis.
 
-The current implementation uses a mock inference pipeline rather than a production-trained ML model, which is clearly reflected in the backend logic and API responses.
+---
 
-## Architecture
+## 📌 Table of Contents
 
-### Mobile app
+1. [Project Overview](#-project-overview)
+2. [Key Features](#-key-features)
+3. [Technology Stack](#-technology-stack)
+4. [System Architecture](#-system-architecture)
+5. [Project Structure](#-project-structure)
+6. [Application Workflow](#-application-workflow)
+7. [Installation and Setup](#-installation-and-setup)
+8. [API Documentation](#-api-documentation)
+9. [Configuration](#-configuration)
+10. [Current Implementation Status](#-current-implementation-status)
+11. [Security Considerations](#-security-considerations)
+12. [Future Enhancements](#-future-enhancements)
+13. [Disclaimer](#-disclaimer)
+14. [License](#-license)
 
-The frontend lives in the `mobile/` folder and is built with:
+---
 
-- Expo
-- React Native
-- Expo Router
-- Zustand for state management
-- Native UI components and theme tokens
+## 🔍 Project Overview
 
-Key screens include:
+BloodID explores the concept of predicting ABO and Rh blood group classifications from fingerprint imagery through a mobile-based workflow.
 
-- splash screen
-- login and registration
-- dashboard/home
-- prediction capture flow
-- history screen
-- learning tips and educational content
-- profile and settings
+The application allows users to capture or upload fingerprint images, submit them for backend analysis, visualize prediction results, and access historical records.
 
-### Backend API
+The system is organized into two primary components:
 
-The backend in `backend/app/` is built with:
+- **Mobile Application:** A cross-platform user interface developed with React Native and Expo.
+- **Backend API:** A Python-based FastAPI service responsible for authentication, fingerprint image handling, simulated inference, and database operations.
 
-- FastAPI
-- SQLite for local persistence
-- JWT-based authentication
-- file upload support for fingerprint analysis
+The current implementation focuses on demonstrating a functional end-to-end software architecture, providing a foundation for future research and experimentation.
 
-The API exposes endpoints for:
+### Project Objectives
 
-- user registration and login
-- current user profile lookup
-- prediction analysis
-- prediction history retrieval
-- saved user settings
+- Develop a user-friendly mobile interface for fingerprint submission.
+- Implement secure account registration and authentication workflows.
+- Establish communication between the mobile application and backend services.
+- Demonstrate an AI-style fingerprint analysis workflow.
+- Present prediction confidence scores and probability distributions.
+- Maintain user-specific prediction history and preferences.
+- Provide a modular foundation for future machine learning integration.
 
-## Folder structure
+---
+
+## ✨ Key Features
+
+### 🔐 User Authentication
+
+- User registration and login.
+- Password hashing using bcrypt.
+- JWT-based authentication.
+- Authenticated access to user-specific data.
+- Account profile management.
+
+### 👆 Fingerprint Image Analysis
+
+- Capture or upload fingerprint images.
+- Submit images to the FastAPI backend.
+- Process requests through an experimental inference pipeline.
+- Receive a simulated blood group classification.
+- Display confidence and image quality scores.
+
+### 📊 Prediction Results
+
+Each analysis response includes:
+
+- Predicted blood group.
+- Confidence score.
+- Probability distribution across blood group classes.
+- Image quality score.
+- Model information.
+- Prediction timestamp.
+
+**Note:** Confidence and probability values are generated by the mock prediction pipeline and do not represent clinically validated accuracy.
+
+### 🕘 Prediction History
+
+- Access previously generated predictions.
+- View recent analyses from the dashboard.
+- Retrieve individual user prediction records.
+- Monitor total prediction count.
+- Display the highest recorded confidence.
+- Identify the most frequently predicted blood group.
+
+### 🎨 Personalized Experience
+
+- Light and dark theme preferences.
+- Language preferences.
+- Notification settings.
+- Profile and account settings.
+- Educational content and learning tips.
+
+### 📱 Mobile-First Interface
+
+- Cross-platform React Native architecture.
+- Expo Router navigation.
+- Reusable UI components.
+- Consistent theme tokens.
+- Interactive animations.
+- Responsive application layouts.
+
+---
+
+## 🛠 Technology Stack
+
+| Layer | Technology | Purpose |
+|---|---|---|
+| Mobile Framework | React Native | Cross-platform mobile development |
+| Development Platform | Expo | Mobile development and testing |
+| Programming Language | TypeScript | Type-safe frontend development |
+| Navigation | Expo Router | File-based application routing |
+| State Management | Zustand | Global application state |
+| Animations | React Native Reanimated | Interactive UI animations |
+| Icon Library | Lucide | UI icons |
+| Backend Framework | FastAPI | REST API development |
+| Backend Language | Python | Server-side application logic |
+| Database | SQLite | Local data persistence |
+| Authentication | JWT | Token-based authentication |
+| Password Security | bcrypt | Secure password hashing |
+| Configuration | Pydantic Settings | Environment-based configuration |
+
+---
+
+## 🏗 System Architecture
+
+BloodID follows a client-server architecture in which the React Native application communicates with the FastAPI backend through HTTP requests.
+
+```text
+┌───────────────────────────────────┐
+│         BLOODID MOBILE APP        │
+│        React Native + Expo        │
+├───────────────────────────────────┤
+│  Authentication                   │
+│  Home Dashboard                   │
+│  Fingerprint Capture / Upload     │
+│  Prediction Results               │
+│  Prediction History               │
+│  Profile & Settings               │
+└─────────────────┬─────────────────┘
+                  │
+                  │ REST API / HTTP
+                  ▼
+┌───────────────────────────────────┐
+│          FASTAPI BACKEND          │
+├───────────────────────────────────┤
+│  Authentication & JWT             │
+│  User Management                  │
+│  Fingerprint Upload Handling      │
+│  Mock Prediction Engine           │
+│  Prediction History               │
+│  User Settings                    │
+└───────────┬───────────┬───────────┘
+            │           │
+            ▼           ▼
+┌────────────────┐ ┌────────────────┐
+│ SQLite Database│ │ Mock Inference │
+│                │ │ Pipeline       │
+│ Users          │ │                │
+│ Predictions    │ │ Simulated      │
+│ Preferences    │ │ Probabilities  │
+└────────────────┘ └────────────────┘
+```
+
+### Architecture Components
+
+**Frontend Layer**
+
+Responsible for user interactions, navigation, image selection, API communication, and result visualization.
+
+**Backend Layer**
+
+Handles authentication, API request validation, fingerprint submission, prediction generation, and database operations.
+
+**Data Layer**
+
+Uses SQLite for persistent storage of user accounts, prediction records, and account preferences.
+
+**Inference Layer**
+
+Currently uses a randomized prediction mechanism as a placeholder for future machine learning integration.
+
+---
+
+## 📁 Project Structure
 
 ```text
 Fingerprint_blood_group_detection/
+│
 ├── backend/
 │   ├── app/
 │   │   ├── api/
@@ -65,152 +206,423 @@ Fingerprint_blood_group_detection/
 │   │   │   ├── prediction.py
 │   │   │   ├── settings.py
 │   │   │   └── users.py
+│   │   │
 │   │   ├── config.py
 │   │   ├── db.py
 │   │   ├── main.py
 │   │   └── ...
+│   │
 │   ├── requirements.txt
 │   └── start_backend.bat
-├── docs/
+│
 ├── mobile/
-│   ├── app/
-│   ├── components/
-│   ├── config/
-│   ├── services/
-│   ├── store/
-│   ├── theme/
-│   ├── types/
+│   ├── app/                # Expo Router screens
+│   ├── components/         # Reusable UI components
+│   ├── config/             # API configuration
+│   ├── services/           # Backend communication
+│   ├── store/              # Zustand state management
+│   ├── theme/              # Design tokens and styling
+│   ├── types/              # TypeScript definitions
 │   ├── package.json
 │   ├── tsconfig.json
 │   └── README.md
-├── shared/
+│
+├── docs/                   # Project documentation
+├── shared/                 # Shared resources
 └── README.md
 ```
 
-## Main features
+---
 
-### Authentication
+## 🔄 Application Workflow
 
-Users can register and log in via `/api/users/register` and `/api/users/login`. Passwords are hashed with bcrypt, and JWT tokens are created for secure session access.
+The primary prediction workflow consists of the following stages.
 
-### Prediction workflow
+**Step 1 — Authentication**
 
-The backend endpoint `/api/prediction/analyze` accepts an uploaded image and generates a simulated blood-group result based on random probabilities. The response includes:
+The user creates an account or signs in. The backend verifies credentials and issues a JWT access token.
 
-- predicted blood group
-- confidence score
-- per-class probability breakdown
-- quality score
-- model metadata
-- creation timestamp
+**Step 2 — Fingerprint Submission**
 
-It also stores prediction records in SQLite for the logged-in user.
+The user captures or selects a fingerprint image using the mobile application's prediction interface.
 
-### History and insights
+**Step 3 — API Communication**
 
-The frontend fetches `/api/prediction/history` and shows recent predictions in the home dashboard and history screens. The UI also summarizes:
+The frontend submits the image to the backend prediction endpoint.
 
-- total number of predictions
-- best confidence
-- most frequently predicted blood group
+**Step 4 — Experimental Analysis**
 
-### Settings and personalization
+The backend invokes the mock inference pipeline to generate simulated blood group probabilities and related metadata.
 
-Users can manage notification settings, theme, and language through the settings API and related mobile screens.
+**Step 5 — Result Visualization**
 
-## Current technical reality
+The application presents the predicted classification, confidence score, quality score, and probability breakdown.
 
-This repository is a functional prototype, not a production-ready medical diagnostic system. The key indicator is that the prediction logic is randomized and the backend explicitly labels the model as a mock implementation.
+**Step 6 — History Storage**
 
-Important notes:
+The prediction result is associated with the authenticated user and stored in SQLite.
 
-- the backend is using SQLite rather than MongoDB despite the config default string
-- the analysis endpoint is an experimental mock ML inference, not a true trained model
-- the app is prepared for local development and demo testing, not clinical deployment
+**Step 7 — History Retrieval**
 
-## Tech stack summary
+Users can revisit their previous prediction records through the dashboard or history screen.
 
-### Frontend
+---
 
-- Expo / React Native
-- TypeScript
-- Expo Router
-- Zustand
-- React Native Reanimated
-- Lucide icons
+## 🚀 Installation and Setup
 
-### Backend
+### Prerequisites
 
-- Python
-- FastAPI
-- SQLite
-- JWT authentication
-- Pydantic settings
+Ensure the following tools are installed:
 
-## Setup and running the project
+- Python 3 with pip
+- Node.js and npm
+- Git
+- Expo Go or an Android emulator
+- A compatible development environment such as Visual Studio Code
 
-### 1) Backend
+### 1. Clone the Repository
 
-From the repository root:
+```bash
+git clone <repository-url>
+cd Fingerprint_blood_group_detection
+```
+
+Replace `<repository-url>` with the Git URL of your BloodID repository.
+
+### 2. Backend Setup
+
+Navigate to the backend directory:
 
 ```bash
 cd backend
+```
+
+Create a virtual environment:
+
+```bash
 python -m venv venv
+```
+
+Activate the virtual environment on Windows:
+
+```bash
 venv\Scripts\activate
+```
+
+For macOS or Linux:
+
+```bash
+source venv/bin/activate
+```
+
+Install Python dependencies:
+
+```bash
 pip install -r requirements.txt
+```
+
+Start the FastAPI development server:
+
+```bash
 python -m uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
 ```
 
-On Windows, a convenience script is also provided:
+The backend will be accessible locally at:
+
+```text
+http://localhost:8001
+```
+
+Interactive API documentation:
+
+```text
+http://localhost:8001/docs
+```
+
+**Windows Alternative**
+
+A convenience script is also available from the repository root:
 
 ```bat
 backend\start_backend.bat
 ```
 
-### 2) Mobile app
+### 3. Mobile Application Setup
 
-From the repository root:
+Open a separate terminal and navigate to the mobile directory:
 
 ```bash
 cd mobile
+```
+
+Install dependencies:
+
+```bash
 npm install
+```
+
+Start the Expo development server:
+
+```bash
 npx expo start
 ```
 
-The mobile app expects the backend to be reachable at the API URL defined in `mobile/config/api.ts`. In development, it uses:
+Follow the Expo terminal instructions to launch the application.
 
-- localhost for web
-- `10.0.2.2:8001` for Android emulator
-- a detected LAN IP for physical devices
+Supported development targets include:
 
-If needed, set `EXPO_PUBLIC_API_URL` before starting Expo.
+- Android emulator
+- Physical Android device using Expo Go
+- Web browser
+- Other Expo-compatible platforms, subject to native dependency support
 
-## Environment and configuration
+### 4. Configure Backend Connectivity
 
-The backend settings are defined in `backend/app/config.py` and include:
+The frontend API configuration is located at:
 
-- project name
-- MongoDB connection string placeholder
-- JWT secret
-- JWT algorithm
-- token expiration period
+```text
+mobile/config/api.ts
+```
 
-For local development, these defaults are used, but production deployment should replace the secret and environment values with secure configuration.
+Depending on the development environment, the backend address may differ.
 
-## Security and production considerations
+| Environment | Backend URL |
+|---|---|
+| Local web development | `http://localhost:8001` |
+| Android emulator | `http://10.0.2.2:8001` |
+| Physical device | `http://<YOUR_LOCAL_IP>:8001` |
 
-This prototype should not be deployed as-is for medical use without:
+For a physical device, ensure that the mobile phone and development computer are connected to the same network and that the backend is reachable.
 
-- a real ML model and validation pipeline
-- secure encrypted storage for patient data
-- stricter authentication and authorization rules
-- production-grade database and file handling
-- compliance review for medical device or healthcare workflows
+You can override the API URL through an Expo environment variable:
 
-## License
+```env
+EXPO_PUBLIC_API_URL=http://<YOUR_LOCAL_IP>:8001
+```
 
-This project appears to include a license file in the mobile app directory, but the repository-level status should be checked before redistribution or commercial use.
+Restart the Expo development server after modifying the configuration.
 
-## Conclusion
+---
 
-BloodID is a strong demo project for an AI-driven fingerprint blood-group prediction app. It demonstrates a complete full-stack workflow, including a mobile UX, authentication, image upload handling, prediction simulation, history tracking, and settings management. The current codebase is best understood as an educational and prototype platform rather than a clinically validated medical application.
+## 📡 API Documentation
+
+BloodID exposes REST endpoints for authentication, fingerprint prediction, history retrieval, and user preferences.
+
+### Authentication and User Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/users/register` | Create a new account |
+| POST | `/api/users/login` | Authenticate an existing user |
+| GET | `/api/users/me` | Retrieve the authenticated user's profile |
+
+### Prediction Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/prediction/analyze` | Submit a fingerprint image for experimental analysis |
+| GET | `/api/prediction/history` | Retrieve prediction history for the authenticated user |
+
+### Settings API
+
+The backend also provides settings-related API operations for storing and retrieving user preferences, including theme, language, and notification configuration.
+
+Refer to the interactive FastAPI documentation at `/docs` for the exact settings routes, accepted request formats, and response schemas.
+
+### Prediction Response Data
+
+The experimental prediction API returns information such as:
+
+| Field | Description |
+|---|---|
+| Predicted Blood Group | Simulated ABO/Rh classification |
+| Confidence | Simulated classification confidence |
+| Probabilities | Per-class probability distribution |
+| Quality Score | Image-related quality metadata |
+| Model Metadata | Information identifying the prediction implementation |
+| Timestamp | Prediction creation time |
+
+The exact JSON schema is defined by the backend application.
+
+---
+
+## ⚙️ Configuration
+
+Backend application configuration is managed through:
+
+```text
+backend/app/config.py
+```
+
+Available configuration options include:
+
+- Application or project name.
+- Database-related settings.
+- JWT secret key.
+- JWT signing algorithm.
+- Access token expiration.
+- Other application environment values.
+
+### Database Configuration
+
+The currently implemented persistence layer uses **SQLite**.
+
+Although a MongoDB connection string placeholder exists in the configuration, it should not be interpreted as an active MongoDB integration.
+
+### Authentication Configuration
+
+JWT authentication is used to protect user-related operations.
+
+For production-oriented environments:
+
+- Replace development JWT secrets.
+- Store sensitive configuration in environment variables.
+- Avoid committing secrets to version control.
+- Use HTTPS for API communication.
+- Apply appropriate token expiration and session management policies.
+
+---
+
+## 🧪 Current Implementation Status
+
+BloodID is presently an experimental software prototype.
+
+| Component | Current Implementation |
+|---|---|
+| Mobile application | React Native / Expo |
+| User authentication | JWT with bcrypt password hashing |
+| Fingerprint upload | Backend-supported image upload |
+| Prediction engine | Mock randomized inference |
+| Prediction confidence | Simulated |
+| Prediction history | SQLite persistence |
+| User preferences | Settings API |
+| Clinical validation | Not performed |
+| Production readiness | Development and demonstration only |
+
+### Machine Learning Limitations
+
+The current inference pipeline does not contain a trained model that establishes a medically valid relationship between fingerprint patterns and blood groups.
+
+Predictions are generated through simulated probabilities for demonstrating application functionality.
+
+As a result:
+
+- Predictions must not be interpreted as genuine blood group identification.
+- Confidence scores are not validated medical confidence estimates.
+- Repeated analysis may produce different results.
+- Image submission does not establish actual blood group status.
+- Diagnostic accuracy, sensitivity, and specificity have not been established.
+
+This separation between the software workflow and the experimental inference layer allows the project to serve as a foundation for further research.
+
+---
+
+## 🔒 Security Considerations
+
+BloodID includes foundational authentication features but requires additional safeguards before handling real patient data or being exposed publicly.
+
+Recommended improvements include:
+
+**Authentication and Authorization**
+
+- Strong JWT secret management.
+- Secure token storage.
+- Comprehensive route-level authorization.
+- Login rate limiting.
+- Account recovery and session revocation mechanisms.
+
+**Data Protection**
+
+- Encryption for sensitive stored information.
+- HTTPS for all external API communication.
+- Defined data retention and deletion policies.
+- Privacy-preserving fingerprint image handling.
+- Restricted access to uploaded files.
+
+**API Security**
+
+- File type and size validation.
+- Image content verification.
+- Structured error handling.
+- Dependency vulnerability assessments.
+- Security-focused API testing.
+
+**Healthcare Compliance**
+
+Any potential medical application would require appropriate privacy, security, regulatory, scientific, and clinical review before real-world use.
+
+---
+
+## 🗺 Future Enhancements
+
+The following improvements represent potential research and development directions rather than completed functionality.
+
+### Phase 1 — Application Improvements
+
+- Improve the fingerprint capture experience.
+- Add stronger input validation.
+- Expand error handling and recovery.
+- Introduce automated frontend and backend tests.
+- Improve accessibility and device compatibility.
+
+### Phase 2 — Research and Machine Learning
+
+- Investigate the scientific validity of fingerprint-based blood group prediction.
+- Establish suitable research datasets with informed consent.
+- Evaluate whether a statistically meaningful relationship can be demonstrated.
+- Explore preprocessing, feature extraction, and model architectures.
+- Introduce reproducible model training and evaluation workflows if supported by evidence.
+
+### Phase 3 — Backend and Infrastructure
+
+- Improve database scalability.
+- Introduce secure file storage.
+- Add monitoring and structured logging.
+- Implement automated deployment workflows.
+- Strengthen authentication and authorization.
+
+### Phase 4 — Validation and Documentation
+
+- Document research methods and dataset provenance.
+- Evaluate model calibration and generalization.
+- Establish independent testing protocols.
+- Add API integration tests.
+- Prepare comprehensive deployment and security documentation.
+
+> Any transition toward clinical functionality would require rigorous scientific evidence, independent validation, and appropriate regulatory review.
+
+---
+
+## ⚠️ Disclaimer
+
+**BloodID is not a medical diagnostic application.**
+
+This project is developed exclusively for education, software prototyping, and exploratory research.
+
+The current system does not determine a person's true blood group and must not be used for transfusion compatibility, clinical diagnosis, emergency treatment, or any healthcare decision.
+
+Actual blood group identification requires established laboratory testing performed using appropriate medical procedures.
+
+The simulated inference feature exists to demonstrate the technical integration of a mobile interface, backend service, prediction-style response, and persistent storage.
+
+---
+
+## 📄 License
+
+A license file may be available within the mobile application directory.
+
+Before redistributing or commercially using this project, verify the license terms and repository-level licensing status.
+
+---
+
+## 🌟 Conclusion
+
+BloodID demonstrates a complete mobile-to-backend workflow for an experimental fingerprint analysis application.
+
+By combining React Native, Expo, TypeScript, FastAPI, JWT authentication, and SQLite, the project establishes a modular software foundation supporting user management, image submission, simulated prediction responses, history tracking, and personalization.
+
+Although the current prediction engine is not a validated machine learning system, the application provides a useful platform for studying full-stack development, API integration, mobile UX design, and the responsible evaluation of healthcare-related AI concepts.
+
+---
+
+**BloodID — Exploring Mobile AI Workflows Through Research and Innovation.**
